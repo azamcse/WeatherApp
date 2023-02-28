@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather app</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            width: 75%;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        #inputBtn {
+            border: 1px solid rgba(30, 39, 46, .1);
+            outline: none;
+            padding: 9px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        #submitBtn {
+            background-color: #6186ff;
+            border: none;
+            padding: 9px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+
+        }
+
+        #city {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            margin-top: 20px;
+        }
+
+        p {}
+
+        p #temp {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6186ff;
+            display: block;
+            margin-top: 5px;
+        }
+
+        #dec {
+            font-size: 14px;
+            font-weight: 400;
+            color: #000;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <input type="text" id="inputBtn" placeholder="Enter a city name">
+        <button type="button" id="submitBtn">Submit</button>
+
+        <h3 id="city"></h3>
+        <p><span id="temp"></span></p>
+        <h4 id="dec"></h4>
+
+    </div>
+
+
+    <script>
+
+        const inputBtn = document.getElementById("inputBtn");
+        const submitBtn = document.getElementById("submitBtn");
+        const city = document.getElementById("city");
+        const temp = document.getElementById("temp");
+        const dec = document.getElementById("dec");
+
+        const apiCallHandler = (inputVal) =>{
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=f929e8f209f18a0dbd01f587a2e253f3`)
+                .then((response) => response.json())
+                .then((data) => {
+                    try{
+                        data.name ? city.innerHTML = data.name :city.innerHTML= ""
+                        data.main.temp ? temp.innerHTML = (data.main.temp - 273.15).toFixed(2) : temp.innerHTMLdata.main.temp = ""
+                        data.weather[0].description ? dec.innerHTML = data.weather[0].description : data.weather[0].description = ""
+                        console.log(data)
+
+                    }catch(err){
+                        console.log(err)
+                    }
+                }
+
+                );
+        }
+
+        submitBtn.addEventListener("click", () =>apiCallHandler(inputBtn.value));
+        inputBtn.addEventListener("keypress", (event)=>event.key === "Enter" && apiCallHandler(inputBtn.value));
+        inputBtn.addEventListener("blur", ()=>apiCallHandler(inputBtn.value));
+        // submitBtn.addEventListener("click", () => {
+        //     // let inputVal = inputBtn.value;
+        //     apiCallHandler(inputBtn.value);
+        // })
+        // inputBtn.addEventListener("keypress", (event)=>{
+        //     // let inputVal = inputBtn.value;
+        //     // event.key === "Enter" && apiCallHandler(inputVal);
+        //     event.key === "Enter" && apiCallHandler(inputBtn.value);
+        // });
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
